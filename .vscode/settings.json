@@ -1,0 +1,7 @@
+{
+  "files.associations": {
+    ".fantomasignore": "ignore",
+    "file_attributes.h": "c",
+    "stdlib.h": "c"
+  }
+}
