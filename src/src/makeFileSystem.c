@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "file_system.h"
+#include "../include/file_system.h"
+
 
 void check_args(int argc, char* argv[]) {
     if (argc != 3) {
@@ -22,7 +23,6 @@ int main( int argc, char* argv[])
 
     FileSystem fs;
     init_file_system(&fs, block_size, argv[2]);
-    print_super_block(&fs);
     
 
     return 0;

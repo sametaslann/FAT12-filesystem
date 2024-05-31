@@ -8,19 +8,21 @@
 #define FAT_FREE 0x000
 #define FAT_END 0xFFF
 #include <time.h>
+#include <stdint.h>
+
 // super block, data blocks, free blocks, directories, data
+typedef struct DirectoryEntry DirectoryEntry;
 
-
-typedef struct {
+typedef struct DirectoryEntry{
     char *fileName; 
-    char *path;
     int fileSize;
     char owner_permissions; 
     time_t last_modification;
     time_t creation_time;
     char *password; 
     int first_block; 
-} DirectoryEntry;
+    DirectoryEntry *subDirectories;
+};
 
 typedef struct 
 {
@@ -30,6 +32,7 @@ typedef struct
     int root_dir_start;
     int data_start;
     int bitmap_start;
+    int dataBlockNum;
 }SuperBlock;
 
 
@@ -42,6 +45,8 @@ typedef struct {
 } FileSystem;
 
 void init_file_system(FileSystem *fs, int block_size, const char *filename);
+void mount_file_system(FileSystem *fs, const char *filename);
+
 void print_super_block(FileSystem *fs);
 
 #endif

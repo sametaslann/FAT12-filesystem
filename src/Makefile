@@ -6,12 +6,12 @@ LDFLAGS =
 OBJDIR = obj
 
 # Source files
-SRC1 = part2.c file_system.c
-SRC2 = part3.c file_system.c
+SRC1 = src/makeFileSystem.c src/file_system.c src/shell_commands.c
+SRC2 = src/fileSystemOper.c src/file_system.c src/shell_commands.c
 
 # Object files in the obj directory
-OBJ1 = $(patsubst %.c,$(OBJDIR)/%.o,$(SRC1))
-OBJ2 = $(patsubst %.c,$(OBJDIR)/%.o,$(SRC2))
+OBJ1 = $(patsubst src/%.c,$(OBJDIR)/%.o,$(SRC1))
+OBJ2 = $(patsubst src/%.c,$(OBJDIR)/%.o,$(SRC2))
 
 # Executable names
 EXEC1 = makeFileSystem
@@ -28,7 +28,7 @@ $(EXEC2): $(OBJ2)
 	$(CC) $(LDFLAGS) $(OBJ2) -o $@
 
 # Rule to compile source files into object files in obj directory
-$(OBJDIR)/%.o: %.c | $(OBJDIR)
+$(OBJDIR)/%.o: src/%.c | $(OBJDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # Ensure obj directory exists
