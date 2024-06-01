@@ -35,8 +35,15 @@ $(OBJDIR)/%.o: src/%.c | $(OBJDIR)
 $(OBJDIR):
 	mkdir -p $(OBJDIR)
 
+# Valgrind targets
+valgrind-makeFileSystem: $(EXEC1)
+	valgrind --leak-check=full --show-leak-kinds=all ./$(EXEC1)
+
+valgrind-fileSystemOper: $(EXEC2)
+	valgrind --leak-check=full --show-leak-kinds=all ./$(EXEC2)
+
 clean:
 	rm -f $(EXEC1) $(EXEC2) $(OBJDIR)/*.o mySystem.dat
 	rm -rf $(OBJDIR)
 
-.PHONY: all clean
+.PHONY: all clean valgrind-makeFileSystem valgrind-fileSystemOper

@@ -11,6 +11,8 @@
 #include <stdint.h>
 
 // super block, data blocks, free blocks, directories, data
+#define HEAP_SIZE 2048
+#define PASSWORD_SIZE 16
 typedef struct DirectoryEntry DirectoryEntry;
 
 typedef struct DirectoryEntry{
@@ -19,10 +21,11 @@ typedef struct DirectoryEntry{
     char owner_permissions; 
     time_t last_modification;
     time_t creation_time;
-    char *password; 
-    int first_block; 
+    char password[PASSWORD_SIZE]; 
+    int first_block;
+    int isDirectory;
     DirectoryEntry *subDirectories;
-};
+}DirectoryEntry;
 
 typedef struct 
 {
