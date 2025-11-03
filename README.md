@@ -1,2 +1,13 @@
 # FAT12-filesystem
-File Allocatin Table (FAT12) implementation to store files 
+
+To Compile:
+
+$ make
+
+To create file system:
+
+$ ./makeFileSystem <block_size> <file_system_name>
+
+To run file operations:
+
+$ ./fileSystemOper <file_system_name> <command> ...

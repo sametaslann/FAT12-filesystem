@@ -1,42 +1,46 @@
-CC = gcc
-CFLAGS = -Wall -Wextra
-LDFLAGS =
+# Compiler
+CXX = g++
 
-# Object directory
+# Compiler flags
+CXXFLAGS = -Wall  -std=c++11 -Iinclude
+
+# Directories
+INCDIR = include
+SRCDIR = src
 OBJDIR = obj
+BINDIR = bin
 
 # Source files
-SRC1 = src/makeFileSystem.c src/file_system.c src/shell_commands.c
-SRC2 = src/fileSystemOper.c src/file_system.c src/shell_commands.c
+SRC_FILES = $(wildcard $(SRCDIR)/*.cpp)
+OBJ_FILES = $(SRC_FILES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 
-# Object files in the obj directory
-OBJ1 = $(patsubst src/%.c,$(OBJDIR)/%.o,$(SRC1))
-OBJ2 = $(patsubst src/%.c,$(OBJDIR)/%.o,$(SRC2))
+# Executable files
+EXECUTABLES = makeFileSystem fileSystemOper
 
-# Executable names
-EXEC1 = makeFileSystem
-EXEC2 = fileSystemOper
+# Targets
+all: $(EXECUTABLES)
 
-all: $(EXEC1) $(EXEC2)
+makeFileSystem: $(OBJDIR)/file_system.o $(OBJDIR)/makeFileSystem.o
+	
+	$(CXX) $^ -o $@
 
-# Rule to build the first executable
-$(EXEC1): $(OBJ1)
-	$(CC) $(LDFLAGS) $(OBJ1) -o $@
+fileSystemOper: $(OBJDIR)/file_system.o $(OBJDIR)/fileSystemOper.o
+	
+	$(CXX) $^ -o $@
 
-# Rule to build the second executable
-$(EXEC2): $(OBJ2)
-	$(CC) $(LDFLAGS) $(OBJ2) -o $@
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp $(INCDIR)/%.hpp
+	@mkdir -p $(OBJDIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Rule to compile source files into object files in obj directory
-$(OBJDIR)/%.o: src/%.c | $(OBJDIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+$(OBJDIR)/makeFileSystem.o: makeFileSystem.cpp
+	@mkdir -p $(OBJDIR)
+	$(CXX) $(CXXFLAGS) -c makeFileSystem.cpp -o $@
 
-# Ensure obj directory exists
-$(OBJDIR):
-	mkdir -p $(OBJDIR)
+$(OBJDIR)/fileSystemOper.o: fileSystemOper.cpp
+	@mkdir -p $(OBJDIR)
+	$(CXX) $(CXXFLAGS) -c fileSystemOper.cpp -o $@
 
 clean:
-	rm -f $(EXEC1) $(EXEC2) $(OBJDIR)/*.o mySystem.dat
-	rm -rf $(OBJDIR)
+	rm -rf $(OBJDIR) makeFileSystem fileSystemOper mySystem.dat
 
 .PHONY: all clean
